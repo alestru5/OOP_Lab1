@@ -3,7 +3,20 @@
 #include <iostream>
 #include "help.h"
 #include <vector>
-int input(int m, int n, std::vector<int> &numbers, std::vector<int> &cols, std::vector<int> &rows);
-void output(int count, int m, int n, std::vector<int> &numbers, std::vector<int> &cols, std::vector<int> &rows);
+struct Matrix{
+    int m;
+    int n;
+    int count;
+    std::vector<int> numbers;
+    std::vector<int> cols;
+    std::vector<int> rows;
+};
+
+int filter_chet(int a);
+int(*callback(int a))(int x);
+Matrix input();
+void output(Matrix matrix);
+Matrix filter(Matrix matrix, int (*action)(int x));
+
 
 #endif
