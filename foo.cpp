@@ -2,25 +2,65 @@
 #include "foo.h"
 #include "help.h"
 
-int filter_chet(int x){
-    if (x % 2 == 0){
-        return 1;
+bool filter_chet(Matrix matrix, int x){
+    if (matrix.numbers[x] % 2 == 0){
+        return true;
     }
-    return 0;
+    return false;
 }
 
-int (*callback(int a))(int x){
-    if (a == 1){
-        std::cout<<"asdf";
+bool filter_unique(Matrix matrix, int x){
+    int count = 0;
+    for (int i = 0; i < matrix.count; i++){
+        if (matrix.numbers[i] == matrix.numbers[x]){
+            count += 1;
+        }
     }
-    return filter_chet;
+    if (count == 1){
+        return true;
+    }
+    return false;
+}
+
+bool find(Matrix matrix, int i, int j){
+    for (int t = 0; t < matrix.count; t++){
+        if (matrix.cols[t] == i && matrix.rows[t] == j){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool filter_ostrov(Matrix matrix, int x){
+    for (int i = matrix.cols[x]-1; i < matrix.cols[x] + 2; i++){
+        if (find(matrix, i, matrix.rows[x] - 1) || find(matrix, i, matrix.rows[x] + 1)){
+            return false;
+        }
+        if (i != matrix.cols[x] && find(matrix, i, matrix.rows[x])){
+            return false;
+        }
+        
+    }
+    return true;
+}
+
+bool (*callback(int a))(Matrix matrix, int x){
+    if (a == 1){
+        return filter_chet;
+    } else if (a == 2){
+        return filter_unique;
+    } else {
+        return filter_ostrov;
+    }
 }
 
 Matrix input(){
     Matrix matrix;
+    std::cout<<"Введите m и n:"<<std::endl;
     matrix.m = getInt();
     matrix.n = getInt();
     matrix.count = 0;
+    std::cout<<"Введите матрицу"<<std::endl;
     for (int i = 0; i < matrix.m; i++){
         for (int j = 0; j < matrix.n; j++){
             int x = getInt();
@@ -52,13 +92,13 @@ void output(Matrix matrix){
     std::cout<<std::endl;
 }
 
-Matrix filter(Matrix matrix,  int (*action)(int x)){
+Matrix filter(Matrix matrix,  bool (*action)(Matrix matrix, int x)){
     Matrix f_matrix;
     f_matrix.m = matrix.m;
     f_matrix.n = matrix.n;
     f_matrix.count = 0;
     for (int i = 0; i < matrix.count; i++){
-        if (action(matrix.numbers[i])){
+        if (action(matrix, i)){
             f_matrix.numbers.push_back(matrix.numbers[i]);
             f_matrix.cols.push_back(matrix.cols[i]);
             f_matrix.rows.push_back(matrix.rows[i]);
