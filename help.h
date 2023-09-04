@@ -7,5 +7,4 @@
 int getInt();
 int getCallback();
 
-
 #endif

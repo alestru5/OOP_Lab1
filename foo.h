@@ -6,10 +6,8 @@
 struct Matrix{
     int m;
     int n;
-    int count;
     std::vector<int> numbers;
-    std::vector<int> cols;
-    std::vector<int> rows;
+    std::vector<std::pair <int, int>> coord;
 };
 
 bool filter_chet(Matrix matrix, int a);

@@ -22,9 +22,9 @@ int getInt(){
 
 int getCallback(){
     int a;
-    std::cout<<"Выберите фильтр:"<<std::endl;
-    std::string msg[3]{"Четные числа", "Уникальные числа", "Одинокие числа числа"};
-    for (int i = 0; i < sizeof(msg) / sizeof(msg[0]); i++){
+    std::cout<<"Enter filter:"<<std::endl;
+    std::string msg[3]{"Even numbers", "Unique numbers", "Along numbers"};
+    for (size_t i = 0; i < sizeof(msg) / sizeof(msg[0]); i++){
         std::cout<<i + 1<<". "<<msg[i]<<std::endl;
     }
     while (true){
@@ -37,7 +37,7 @@ int getCallback(){
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout<<"Error, repeat, please!"<<std::endl;
-        } else if (a >= 1 && a<= sizeof(msg) / sizeof(msg[0])){
+        } else if (a >= 1 && a<= 3){
             return a;
         } else{
             std::cout<<"Error, repeat, please!"<<std::endl;

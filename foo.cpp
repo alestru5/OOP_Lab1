@@ -11,7 +11,7 @@ bool filter_chet(Matrix matrix, int x){
 
 bool filter_unique(Matrix matrix, int x){
     int count = 0;
-    for (int i = 0; i < matrix.count; i++){
+    for (size_t i = 0; i < matrix.numbers.size(); i++){
         if (matrix.numbers[i] == matrix.numbers[x]){
             count += 1;
         }
@@ -23,8 +23,8 @@ bool filter_unique(Matrix matrix, int x){
 }
 
 bool find(Matrix matrix, int i, int j){
-    for (int t = 0; t < matrix.count; t++){
-        if (matrix.cols[t] == i && matrix.rows[t] == j){
+    for (size_t t = 0; t < matrix.numbers.size(); t++){
+        if (matrix.coord[t].first == i && matrix.coord[t].second == j){
             return true;
         }
     }
@@ -32,11 +32,11 @@ bool find(Matrix matrix, int i, int j){
 }
 
 bool filter_ostrov(Matrix matrix, int x){
-    for (int i = matrix.cols[x]-1; i < matrix.cols[x] + 2; i++){
-        if (find(matrix, i, matrix.rows[x] - 1) || find(matrix, i, matrix.rows[x] + 1)){
+    for (int i = matrix.coord[x].first-1; i < matrix.coord[x].first + 2; i++){
+        if (find(matrix, i, matrix.coord[x].second - 1) || find(matrix, i, matrix.coord[x].second + 1)){
             return false;
         }
-        if (i != matrix.cols[x] && find(matrix, i, matrix.rows[x])){
+        if (i != matrix.coord[x].first && find(matrix, i, matrix.coord[x].second)){
             return false;
         }
         
@@ -56,19 +56,16 @@ bool (*callback(int a))(Matrix matrix, int x){
 
 Matrix input(){
     Matrix matrix;
-    std::cout<<"Введите m и n:"<<std::endl;
+    std::cout<<"Enter m и n:"<<std::endl;
     matrix.m = getInt();
     matrix.n = getInt();
-    matrix.count = 0;
-    std::cout<<"Введите матрицу"<<std::endl;
+    std::cout<<"Enter matrix:"<<std::endl;
     for (int i = 0; i < matrix.m; i++){
         for (int j = 0; j < matrix.n; j++){
             int x = getInt();
             if (x != 0){
                 matrix.numbers.push_back(x);
-                matrix.cols.push_back(j);
-                matrix.rows.push_back(i);
-                matrix.count += 1;
+                matrix.coord.push_back(std::make_pair(i, j));
             }
         }
     }
@@ -77,10 +74,10 @@ Matrix input(){
 }
 
 void output(Matrix matrix){
-    int t = 0;
+    size_t t = 0;
     for (int i = 0; i < matrix.m; i++){
         for (int j = 0; j < matrix.n; j++){
-            if (t < matrix.count && matrix.cols[t] == j && matrix.rows[t] == i){
+            if (t < matrix.numbers.size() && matrix.coord[t].first == i && matrix.coord[t].second == j){
                 std::cout<<matrix.numbers[t]<<" ";
                 t += 1;
             } else{
@@ -96,13 +93,10 @@ Matrix filter(Matrix matrix,  bool (*action)(Matrix matrix, int x)){
     Matrix f_matrix;
     f_matrix.m = matrix.m;
     f_matrix.n = matrix.n;
-    f_matrix.count = 0;
-    for (int i = 0; i < matrix.count; i++){
+    for (size_t i = 0; i < matrix.numbers.size(); i++){
         if (action(matrix, i)){
             f_matrix.numbers.push_back(matrix.numbers[i]);
-            f_matrix.cols.push_back(matrix.cols[i]);
-            f_matrix.rows.push_back(matrix.rows[i]);
-            f_matrix.count += 1;
+            f_matrix.coord.push_back(std::make_pair(matrix.coord[i].first, matrix.coord[i].second));
         }
     }
     return f_matrix;
