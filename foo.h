@@ -3,6 +3,8 @@
 #include <iostream>
 #include "help.h"
 #include <vector>
+#include <algorithm>
+
 struct Matrix{
     int m;
     int n;
@@ -20,6 +22,7 @@ bool(*callback(int a))(Matrix &matrix, int x);
 
 Matrix input();
 void output(Matrix &matrix);
+void erase(Matrix &matrix);
 
 Matrix filter(Matrix &matrix, bool (*action)(Matrix &matrix, int x));
 

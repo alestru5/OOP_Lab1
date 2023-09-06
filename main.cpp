@@ -6,17 +6,23 @@
 
 
 int main(){
+    Matrix first;
+    Matrix second;
     try{
-        Matrix first = input();
+        first = input();
         std::cout<<"Your matrix: "<<std::endl;
         output(first);
         int a = getCallback();
         bool (*action)(Matrix &matrix, int x) = callback(a);
-        Matrix second = filter(first, action);
+        second = filter(first, action);
         std::cout<<"Final matrix: "<<std::endl;
         output(second);
+        erase(first);
+        erase(second);
     } catch(const std::exception &e) {
         std::cerr << e.what()<<std::endl;
+        erase(first);
+        erase(second);
         return 1;
     }
     return 0;

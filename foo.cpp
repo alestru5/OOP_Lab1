@@ -11,7 +11,7 @@ bool filter_chet(Matrix &matrix, int x){
 
 bool filter_unique(Matrix &matrix, int x){
     int count = 0;
-    for (size_t i = 0; i < matrix.numbers.size(); i++){
+    for (int i = 0; i < matrix.count; i++){
         if (matrix.numbers[i] == matrix.numbers[x]){
             count += 1;
         }
@@ -23,7 +23,7 @@ bool filter_unique(Matrix &matrix, int x){
 }
 
 bool find(Matrix &matrix, int i, int j){
-    for (size_t t = 0; t < matrix.numbers.size(); t++){
+    for (int t = 0; t < matrix.count; t++){
         if (matrix.coord[t].first == i && matrix.coord[t].second == j){
             return true;
         }
@@ -76,8 +76,9 @@ Matrix input(){
             int y = getNum<int>(0, matrix.n - 1);
             matrix.numbers[i] = t;
             matrix.coord[i] = std::make_pair(x, y);
-        }    
-    } catch(...){
+        }
+        std::sort(matrix.coord, matrix.coord + matrix.count);
+    }catch(...){
         throw; 
     }    
     std::cout<<std::endl;
@@ -85,10 +86,10 @@ Matrix input(){
 }
 
 void output(Matrix &matrix){
-    size_t t = 0;
+    int t = 0;
     for (int i = 0; i < matrix.m; i++){
         for (int j = 0; j < matrix.n; j++){
-            if (t < matrix.numbers.size() && matrix.coord[t].first == i && matrix.coord[t].second == j){
+            if (t < matrix.count && matrix.coord[t].first == i && matrix.coord[t].second == j){
                 std::cout<<matrix.numbers[t]<<" ";
                 t += 1;
             } else{
@@ -104,12 +105,33 @@ Matrix filter(Matrix &matrix,  bool (*action)(Matrix &matrix, int x)){
     Matrix f_matrix;
     f_matrix.m = matrix.m;
     f_matrix.n = matrix.n;
-    for (size_t i = 0; i < matrix.numbers.size(); i++){
+    int t = 0;
+    f_matrix.numbers = new int[matrix.count];
+    f_matrix.coord = new std::pair<int, int>[matrix.count];
+    for (int i = 0; i < matrix.count; i++){
         if (action(matrix, i)){
-            f_matrix.numbers.push_back(matrix.numbers[i]);
-            f_matrix.coord.push_back(std::make_pair(matrix.coord[i].first, matrix.coord[i].second));
+            f_matrix.numbers[t] = matrix.numbers[i];
+            f_matrix.coord[t] = std::make_pair(matrix.coord[i].first, matrix.coord[i].second);
+            t += 1;
         }
     }
+    f_matrix.count = t;
+
+    int *tmp1 = new int[t];
+    std::copy(f_matrix.numbers, f_matrix.numbers + t, tmp1);
+    delete [] f_matrix.numbers;
+    f_matrix.numbers = tmp1;
+
+    std::pair <int, int> *tmp2 = new std::pair<int, int>[t];
+    std::copy(f_matrix.coord, f_matrix.coord + t, tmp2);
+    delete [] f_matrix.coord;
+    f_matrix.coord = tmp2;
+
     return f_matrix;
+}
+
+void erase(Matrix &matrix){
+    delete [] matrix.coord;
+    delete [] matrix.numbers;
 }
 
