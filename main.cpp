@@ -1,14 +1,17 @@
 #include <iostream>
-#include "foo.h"
 #include "help.h"
+#include "foo.h"
+
 #include <vector>
+
+
 int main(){
     try{
         Matrix first = input();
         std::cout<<"Your matrix: "<<std::endl;
         output(first);
         int a = getCallback();
-        bool (*action)(Matrix matrix, int x) = callback(a);
+        bool (*action)(Matrix &matrix, int x) = callback(a);
         Matrix second = filter(first, action);
         std::cout<<"Final matrix: "<<std::endl;
         output(second);
