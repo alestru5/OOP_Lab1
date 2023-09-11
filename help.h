@@ -18,6 +18,8 @@ T getNum(T min = std::numeric_limits<T>::min(), T max = std::numeric_limits<T>::
             std::cout<<"Error, repeat, please!"<<std::endl;
         } else if (a >= min && a <= max){
             return a;
+        } else{
+            std::cout<<"Out of range index. Repeat, pls: ";
         }
     }
 }

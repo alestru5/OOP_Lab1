@@ -4,13 +4,16 @@
 #include "help.h"
 #include <vector>
 #include <algorithm>
-
+#include <map>
+struct Element{
+    std::pair<int, int> coord;
+    int data;
+};
 struct Matrix{
     int m;
     int n;
     int count;
-    int *numbers;
-    std::pair<int, int> *coord;
+    Element *numbers;
 };
 
 bool filter_chet(Matrix &matrix, int a);

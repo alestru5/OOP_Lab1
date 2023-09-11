@@ -19,10 +19,11 @@ int main(){
         output(second);
         erase(first);
         erase(second);
+    } catch(const std::bad_alloc &ba){
+        std::cerr<<"Not enough memory"<<std::endl;
+        return 1;    
     } catch(const std::exception &e) {
         std::cerr << e.what()<<std::endl;
-        erase(first);
-        erase(second);
         return 1;
     }
     return 0;
