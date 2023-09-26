@@ -4,7 +4,7 @@
 #include "help.h"
 #include <vector>
 #include <algorithm>
-#include <map>
+
 struct Element{
     std::pair<int, int> coord;
     int data;

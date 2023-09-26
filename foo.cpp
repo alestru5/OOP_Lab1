@@ -81,7 +81,7 @@ Matrix input(){
             std::cout<<"Enter i and j " <<i + 1<<" element: ";
             int x = getNum<int>(0, matrix.m - 1);
             int y = getNum<int>(0, matrix.n - 1);
-            while (find(matrix, x, y)){
+            while (find(matrix, x, y) && (x != 0 && y != 0)){
                 std::cout<<"Enter unique i and j element: ";
                 x = getNum<int>(0, matrix.m - 1);
                 y = getNum<int>(0, matrix.n - 1);
